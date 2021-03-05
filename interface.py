@@ -43,7 +43,10 @@ class NativePlatform(mupq.Platform):
 
     def run(self, binary_path):
         elf = binary_path.replace("bin", "elf")
-        data = subprocess.run(elf, stdout=subprocess.PIPE).stdout
+        proc = subprocess.run(elf, stdout=subprocess.PIPE)
+        if proc.returncode != 0:
+            raise Exception("rc != 0. did you forget to enable access to performance counters in usermode?")
+        data = proc.stdout
         data = data.decode("utf-8")
         data = re.sub(r'.*={4,}\n', '', data)
         data = re.sub(r'#\n', '', data)
