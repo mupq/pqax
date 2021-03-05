@@ -3,8 +3,6 @@ import re
 import subprocess
 
 from mupq import mupq
-from mupq import platforms
-
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="PQAX Specific Settings")
