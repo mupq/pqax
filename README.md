@@ -4,14 +4,14 @@ This is work in progress... don't expect too much of the documentation.
 
 ```
 ./test.py
-./benchmarks.py --nostack --nosize
+./benchmarks.py
 ```
 
 e.g.,
 
 ```
 ./test.py kyber768
-./benchmarks.py --nostack --nosize
+./benchmarks.py
 ```
 
 #TODOs
