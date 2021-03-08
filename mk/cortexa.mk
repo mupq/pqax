@@ -9,6 +9,9 @@ obj/libpqaxhal-nornd.a: $(call objs,$(filter-out common/randombytes.c,$(LIBHAL_S
 LDLIBS += -lpqaxhal$(if $(NO_RANDOMBYTES),-nornd)
 LIBDEPS += obj/libpqaxhal.a obj/libpqaxhal-nornd.a
 
+CFLAGS += -fomit-frame-pointer -march=native -mtune=native
+
+
 CC := gcc
 CPP := cpp
 AR := ar
