@@ -22,8 +22,6 @@ e.g.,
 ```
 
 #TODOs
- - kernel module to enable access to cycle counts
- - proper randombytes
  - Fast Keccak/SHA2/AES
  - stack benchmark
  - size benchmark
