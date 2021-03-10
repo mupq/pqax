@@ -12,11 +12,11 @@ LIBDEPS += obj/libpqaxhal.a obj/libpqaxhal-nornd.a
 CFLAGS += -fomit-frame-pointer -march=native -mtune=native
 
 
-CC := gcc
-CPP := cpp
-AR := ar
-LD := $(CC)
-OBJCOPY := objcopy
-SIZE := size
+CC ?= gcc
+CPP ?= cpp
+AR ?= ar
+LD ?= $(CC)
+OBJCOPY ?= objcopy
+SIZE ?= size
 
 LINKDEPS += $(LIBDEPS)
