@@ -1,4 +1,5 @@
-**pqax** aims to make it easier to start optimizing post-quantum crypto using ARM NEON. Currently, it is only tested on the Raspberry Pi 4 (which has an ARM Cortex-A72).
+**pqax** aims to make it easier to start optimizing post-quantum crypto using ARM NEON. 
+Currently, it is only tested on the Raspberry Pi 2 (which has an ARM Cortex-A7) and Raspberry Pi 4 (ARM Cortex-A72).
 I might add support for more hardware later.
 
 **pqax** is based on [mupq](https://github.com/mupq/mupq) and works in the same manner as [pqm4](https://github.com/mupq/pqm4), except that we do not need to cross-compile and we don't need serial communication as we can just print to stdout. 
@@ -16,6 +17,12 @@ You can either write one yourself, use [someone else's code](https://github.com/
 cd enable_ccr
 make install
 ```
+
+For the Raspberry Pi 2, I had to install the [kernel headers](https://www.raspberrypi.org/documentation/linux/kernel/headers.md) manually
+```
+sudo apt install raspberrypi-kernel-headers
+```
+
 
 # Testing & Benchmarking 
 
