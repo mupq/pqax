@@ -1,5 +1,6 @@
 import argparse
 import re
+import platform as pltfrm
 import subprocess
 
 from mupq import mupq
@@ -71,6 +72,11 @@ class AXSettings(mupq.PlatformSettings):
         self.makeflags = [f"PLATFORM={platform}"]
         self.makeflags += [f"MUPQ_ITERATIONS={iterations}"]
         self.makeflags += optflags[opt]
+
+
+        if pltfrm.machine() != "aarch64":
+            self.skip_list = [{'implementation': 'aarch64'}]
+
         if lto:
             self.makeflags += ["LTO=1"]
         else:
