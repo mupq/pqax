@@ -15,27 +15,18 @@
 *              - uint8_t i: additional byte of input
 *              - uint8_t j: additional byte of input
 **************************************************/
-void kyber_shake128_absorb(shake128ctx *state,
+void kyber_shake128_absorb(keccak_state *state,
                            const uint8_t seed[KYBER_SYMBYTES],
                            uint8_t x,
                            uint8_t y)
 {
-  //uint8_t extseed[KYBER_SYMBYTES+2];
+  uint8_t extseed[KYBER_SYMBYTES+2];
 
-  //memcpy(extseed, seed, KYBER_SYMBYTES);
-  //extseed[KYBER_SYMBYTES+0] = x;
-  //extseed[KYBER_SYMBYTES+1] = y;
+  memcpy(extseed, seed, KYBER_SYMBYTES);
+  extseed[KYBER_SYMBYTES+0] = x;
+  extseed[KYBER_SYMBYTES+1] = y;
 
-  //shake128_absorb_once(state, extseeneon_d, sizeof(extseed));
-  unsigned char extseed[KYBER_SYMBYTES + 2];
-  int i;
-
-  for (i = 0; i < KYBER_SYMBYTES; i++) {
-    extseed[i] = seed[i];
-  }
-  extseed[i++] = x;
-  extseed[i]   = y;
-  shake128_absorb(state, extseed, KYBER_SYMBYTES + 2);
+  shake128_absorb_once(state, extseed, sizeof(extseed));
 }
 
 /*************************************************
