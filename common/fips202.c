@@ -568,6 +568,10 @@ void shake128_inc_squeeze(uint8_t *out, size_t outlen, shake128incctx *state)
   state->pos = keccak_inc_squeeze(out, outlen, state->s, state->pos, SHAKE128_RATE);
 }
 
+void shake128_inc_ctx_release(shake128incctx *state){
+    (void) state;
+}
+
 /*************************************************
 * Name:        shake128_absorb
 *
@@ -595,9 +599,12 @@ void shake128_absorb(shake128ctx *state, const uint8_t *in, size_t inlen)
 *              - size_t nblocks: number of blocks to be squeezed (written to output)
 *              - keccak_state *s: pointer to input/output Keccak state
 **************************************************/
-void shake128_squeezeblocks(uint8_t *out, size_t nblocks, shake128ctx *state)
-{
-  keccak_squeezeblocks(out, nblocks, state->s, SHAKE128_RATE);
+void shake128_squeezeblocks(uint8_t *out, size_t nblocks, shake128ctx *state){
+    keccak_squeezeblocks(out, nblocks, state->s, SHAKE128_RATE);
+}
+
+void shake128_ctx_release(shake128ctx *state){
+    (void) state;
 }
 
 /*************************************************
@@ -655,6 +662,10 @@ void shake256_inc_squeeze(uint8_t *out, size_t outlen, shake256incctx *state)
   state->pos = keccak_inc_squeeze(out, outlen, state->s, state->pos, SHAKE256_RATE);
 }
 
+void shake256_inc_ctx_release(shake256incctx *state){
+    (void) state;
+}
+
 /*************************************************
 * Name:        shake256_absorb
 *
@@ -685,6 +696,10 @@ void shake256_absorb(shake256ctx *state, const uint8_t *in, size_t inlen)
 void shake256_squeezeblocks(uint8_t *out, size_t nblocks, shake256ctx *state)
 {
   keccak_squeezeblocks(out, nblocks, state->s, SHAKE256_RATE);
+}
+
+void shake256_ctx_release(shake256ctx *state){
+    (void) state;
 }
 
 /*************************************************

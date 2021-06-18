@@ -33,15 +33,19 @@ void shake128_inc_init(shake128incctx *state);
 void shake128_inc_absorb(shake128incctx *state, const uint8_t *in, size_t inlen);
 void shake128_inc_finalize(shake128incctx *state);
 void shake128_inc_squeeze(uint8_t *out, size_t outlen, shake128incctx *state);
+void shake128_inc_ctx_release(shake128incctx *state);
 void shake128_absorb(shake128ctx *state, const uint8_t *in, size_t inlen);
 void shake128_squeezeblocks(uint8_t *out, size_t nblocks, shake128ctx *state);
+void shake128_ctx_release(shake128ctx *state);
 
 void shake256_inc_init(shake256incctx *state);
 void shake256_inc_absorb(shake256incctx *state, const uint8_t *in, size_t inlen);
 void shake256_inc_finalize(shake256incctx *state);
 void shake256_inc_squeeze(uint8_t *out, size_t outlen, shake256incctx *state);
+void shake256_inc_ctx_release(shake256incctx *state);
 void shake256_absorb(shake256ctx *state, const uint8_t *in, size_t inlen);
 void shake256_squeezeblocks(uint8_t *out, size_t nblocks,  shake256ctx *state);
+void shake256_ctx_release(shake256ctx *state);
 
 void shake128(uint8_t *out, size_t outlen, const uint8_t *in, size_t inlen);
 void shake256(uint8_t *out, size_t outlen, const uint8_t *in, size_t inlen);
