@@ -2,6 +2,11 @@
 #include <stddef.h>
 #include "fips202x2.h"
 
+#ifdef PROFILE_HASHING
+#include "hal.h"
+extern unsigned long long hash_cycles;
+#endif
+
 #define NROUNDS 24
 
 // Define NEON operation
@@ -468,8 +473,7 @@ void keccakx2_squeezeblocks(uint8_t *out0,
                             uint8_t *out1,
                             size_t nblocks,
                             unsigned int r,
-                            v128 s[25])
-{
+                            v128 s[25]){
   unsigned int i;
 
   uint64x1_t a, b;
@@ -520,9 +524,15 @@ void keccakx2_squeezeblocks(uint8_t *out0,
 void shake128x2_absorb(keccakx2_state *state,
                        const uint8_t *in0,
                        const uint8_t *in1,
-                       size_t inlen)
-{
+                       size_t inlen){
+#ifdef PROFILE_HASHING
+  uint64_t t0 = hal_get_time();
+#endif
   keccakx2_absorb(state->s, SHAKE128_RATE, in0, in1, inlen, 0x1F);
+#ifdef PROFILE_HASHING
+  uint64_t t1 = hal_get_time();
+  hash_cycles += (t1-t0);
+#endif
 }
 
 /*************************************************
@@ -540,9 +550,15 @@ void shake128x2_absorb(keccakx2_state *state,
 void shake128x2_squeezeblocks(uint8_t *out0,
                               uint8_t *out1,
                               size_t nblocks,
-                              keccakx2_state *state)
-{
+                              keccakx2_state *state){
+#ifdef PROFILE_HASHING
+  uint64_t t0 = hal_get_time();
+#endif
   keccakx2_squeezeblocks(out0, out1, nblocks, SHAKE128_RATE, state->s);
+#ifdef PROFILE_HASHING
+  uint64_t t1 = hal_get_time();
+  hash_cycles += (t1-t0);
+#endif
 }
 
 /*************************************************
@@ -558,9 +574,15 @@ void shake128x2_squeezeblocks(uint8_t *out0,
 void shake256x2_absorb(keccakx2_state *state,
                        const uint8_t *in0,
                        const uint8_t *in1,
-                       size_t inlen)
-{
+                       size_t inlen){
+#ifdef PROFILE_HASHING
+  uint64_t t0 = hal_get_time();
+#endif
   keccakx2_absorb(state->s, SHAKE256_RATE, in0, in1, inlen, 0x1F);
+#ifdef PROFILE_HASHING
+  uint64_t t1 = hal_get_time();
+  hash_cycles += (t1-t0);
+#endif
 }
 
 /*************************************************
@@ -578,9 +600,15 @@ void shake256x2_absorb(keccakx2_state *state,
 void shake256x2_squeezeblocks(uint8_t *out0,
                               uint8_t *out1,
                               size_t nblocks,
-                              keccakx2_state *state)
-{
+                              keccakx2_state *state){
+#ifdef PROFILE_HASHING
+  uint64_t t0 = hal_get_time();
+#endif
   keccakx2_squeezeblocks(out0, out1, nblocks, SHAKE256_RATE, state->s);
+#ifdef PROFILE_HASHING
+  uint64_t t1 = hal_get_time();
+  hash_cycles += (t1-t0);
+#endif
 }
 
 /*************************************************
@@ -598,8 +626,10 @@ void shake128x2(uint8_t *out0,
                 size_t outlen,
                 const uint8_t *in0,
                 const uint8_t *in1,
-                size_t inlen)
-{
+                size_t inlen){
+#ifdef PROFILE_HASHING
+  uint64_t t0 = hal_get_time();
+#endif
   unsigned int i;
   size_t nblocks = outlen / SHAKE128_RATE;
   uint8_t t[2][SHAKE128_RATE];
@@ -621,6 +651,10 @@ void shake128x2(uint8_t *out0,
       out1[i] = t[1][i];
     }
   }
+#ifdef PROFILE_HASHING
+  uint64_t t1 = hal_get_time();
+  hash_cycles += (t1-t0);
+#endif
 }
 
 /*************************************************
@@ -638,8 +672,10 @@ void shake256x2(uint8_t *out0,
                 size_t outlen,
                 const uint8_t *in0,
                 const uint8_t *in1,
-                size_t inlen)
-{
+                size_t inlen){
+#ifdef PROFILE_HASHING
+  uint64_t t0 = hal_get_time();
+#endif
   unsigned int i;
   size_t nblocks = outlen / SHAKE256_RATE;
   uint8_t t[2][SHAKE256_RATE];
@@ -661,4 +697,8 @@ void shake256x2(uint8_t *out0,
       out1[i] = t[1][i];
     }
   }
+#ifdef PROFILE_HASHING
+  uint64_t t1 = hal_get_time();
+  hash_cycles += (t1-t0);
+#endif
 }
