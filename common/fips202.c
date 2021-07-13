@@ -797,12 +797,13 @@ void shake128(uint8_t *out, size_t outlen, const uint8_t *in, size_t inlen){
   size_t nblocks;
   shake128ctx state;
 
-  shake128_absorb(&state, in, inlen);
+  keccak_absorb(state.s, SHAKE128_RATE, in, inlen, 0x1F);
+  state.pos = SHAKE128_RATE;
   nblocks = outlen/SHAKE128_RATE;
-  shake128_squeezeblocks(out, nblocks, &state);
+  keccak_squeezeblocks(out, nblocks, state.s, SHAKE128_RATE);
   outlen -= nblocks*SHAKE128_RATE;
   out += nblocks*SHAKE128_RATE;
-  shake128_inc_squeeze(out, outlen, (shake128incctx*)&state);
+  state.pos = keccak_inc_squeeze(out, outlen, state.s, state.pos, SHAKE128_RATE);
 #ifdef PROFILE_HASHING
   uint64_t t1 = hal_get_time();
   hash_cycles += (t1-t0);
@@ -826,12 +827,14 @@ void shake256(uint8_t *out, size_t outlen, const uint8_t *in, size_t inlen){
   size_t nblocks;
   shake256ctx state;
 
-  shake256_absorb(&state, in, inlen);
+
+  keccak_absorb(state.s, SHAKE256_RATE, in, inlen, 0x1F);
+  state.pos = SHAKE256_RATE;
   nblocks = outlen/SHAKE256_RATE;
-  shake256_squeezeblocks(out, nblocks, &state);
+  keccak_squeezeblocks(out, nblocks, state.s, SHAKE256_RATE);
   outlen -= nblocks*SHAKE256_RATE;
   out += nblocks*SHAKE256_RATE;
-  shake256_inc_squeeze(out, outlen, (shake256incctx*)&state);
+  state.pos = keccak_inc_squeeze(out, outlen, state.s, state.pos, SHAKE256_RATE);
 #ifdef PROFILE_HASHING
   uint64_t t1 = hal_get_time();
   hash_cycles += (t1-t0);
